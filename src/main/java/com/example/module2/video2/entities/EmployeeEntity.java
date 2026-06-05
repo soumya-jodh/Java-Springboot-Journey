@@ -1,11 +1,19 @@
 package com.example.module2.video2.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "employees")
 public class EmployeeEntity {
 
@@ -17,6 +25,7 @@ public class EmployeeEntity {
     private Integer age;
     private LocalDate datejoined;
     private Boolean isActive;
+
 
 
 }
