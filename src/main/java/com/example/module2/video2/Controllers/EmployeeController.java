@@ -2,7 +2,8 @@ package com.example.module2.video2.Controllers;
 
 import com.example.module2.video2.dto.EmployeeDto;
 import com.example.module2.video2.entities.EmployeeEntity;
-import com.example.module2.video2.repositories.EmployeeRepository;
+import com.example.module2.video2.services.EmployeeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -12,39 +13,28 @@ import java.util.List;
 @RequestMapping(path="/employees")
 public class EmployeeController
 {
-//    @GetMapping(path="/secret")
-//    public String secret()
-//    {
-//        return "ABS1258";
-//    }
-//    @GetMapping(path="/")
-//    public String home()
-//    {
-//        return "Welcome";
-//    }
+    private final EmployeeService employeeService;
 
-    private final EmployeeRepository employeeRepository;
-    public EmployeeController(EmployeeRepository employeeRepository)
-    {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @GetMapping(path="{id}")
-    public EmployeeEntity getEmployee(@PathVariable Long id)
+    public EmployeeDto getEmployee(@PathVariable Long id)
     {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeService.getEmployeeById(id);
     }
     @GetMapping
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age,
+    public List<EmployeeDto> getAllEmployees(@RequestParam(required = false) Integer age,
                          @RequestParam(required = false) String nws)
     {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
     }
 
     @PostMapping
-    public EmployeeEntity createNewEmployee(@RequestBody EmployeeEntity inputEmployee)
+    public EmployeeDto createNewEmployee(@RequestBody EmployeeDto inputEmployee)
     {
-        return employeeRepository.save(inputEmployee);
+        return employeeService.createNewEmployee(inputEmployee);
     }
 
     @PutMapping
