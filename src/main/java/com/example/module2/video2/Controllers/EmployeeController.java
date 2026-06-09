@@ -1,15 +1,13 @@
 package com.example.module2.video2.Controllers;
 
 import com.example.module2.video2.dto.EmployeeDto;
-import com.example.module2.video2.entities.EmployeeEntity;
+import com.example.module2.video2.exceptions.ResourceNotFoundException;
 import com.example.module2.video2.services.EmployeeService;
 import jakarta.validation.Valid;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,10 +28,10 @@ public class EmployeeController
         Optional<EmployeeDto> employeeDto = employeeService.getEmployeeById(id);
         return employeeDto
                 .map(employeeDto1 -> ResponseEntity.ok(employeeDto1))
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with id: " + id + " does not exist"));
     }
 
-    @GetMapping
+    @GetMapping(path="/allemployees")
     public ResponseEntity<List<EmployeeDto>> getAllEmployees(@RequestParam(required = false) Integer age,
                          @RequestParam(required = false) String nws)
     {
