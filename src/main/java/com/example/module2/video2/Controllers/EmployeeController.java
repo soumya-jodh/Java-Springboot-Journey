@@ -3,6 +3,7 @@ package com.example.module2.video2.Controllers;
 import com.example.module2.video2.dto.EmployeeDto;
 import com.example.module2.video2.entities.EmployeeEntity;
 import com.example.module2.video2.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +41,14 @@ public class EmployeeController
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody EmployeeDto inputEmployee)
+    public ResponseEntity<EmployeeDto> createNewEmployee(@RequestBody @Valid EmployeeDto inputEmployee)
     {
         EmployeeDto savedEmployee = employeeService.createNewEmployee(inputEmployee);
         return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
     }
 
     @PutMapping(path="/{employeeId}")
-    public ResponseEntity<EmployeeDto> updateEmployeeById(@RequestBody EmployeeDto employeeDto, @PathVariable Long employeeId)
+    public ResponseEntity<EmployeeDto> updateEmployeeById(@RequestBody @Valid EmployeeDto employeeDto, @PathVariable Long employeeId)
     {
         return ResponseEntity.ok(employeeService.updateEmployeeById(employeeId, employeeDto));
     }
